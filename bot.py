@@ -27,8 +27,19 @@ async def achievements(ctx):
 
 
 @bot.command()
-async def congratulate(ctx, *args):
-    await ctx.send("Happy 18-th birthday <@449366472704393216>! Now there's no need to hide that you watch NSFW stuff.")
+async def congratulate(ctx, num_times=None):
+    message = "Happy 18-th birthday <@449366472704393216>! Now there's no need to hide that you watch NSFW stuff."
+    if (num_times == None):
+        num_times = 1
+
+    if int(num_times) > 10:
+        await ctx.send("We don't want to ping him too many times")
+        return
+
+    finalMessage = ""
+    for i in range(int(num_times)):
+        finalMessage += message + "\n"
+    await ctx.send(finalMessage)
 
 
 @bot.command()
