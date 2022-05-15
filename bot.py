@@ -1,14 +1,29 @@
 import discord
 from discord.ext import commands
-from dotenv import dotenv_values
 from util import add_commands
 from datetime import datetime
 import os
 import random
+from keep_alive import keep_alive
 
-TOKEN = dotenv_values(".env")['token']
+TOKEN = os.getenv("token")
 bot = commands.Bot(command_prefix=".kento ")
+bot2 = commands.Bot(command_prefix=".ronak ")
 
+@bot2.command()
+async def congrats(ctx, num_times=None): 
+    message = "Good job Ronak!"
+    if (num_times == None):
+        num_times = 1
+
+    if int(num_times) > 1000:
+        await ctx.send("We don't want to ping him too many times")
+        return
+
+    finalMessage = ""
+    for i in range(int(num_times)):
+        finalMessage += message + "\n"
+    await ctx.send(finalMessage[:2000])
 
 @bot.command()
 async def describe(ctx):
@@ -25,21 +40,28 @@ async def achievements(ctx):
         response += f"{i + 1}." + achievements[i] + "." + "\n"
     await ctx.send(response)
 
+@bot.command()
+async def admissions(ctx): 
+    results = ['Harvard (REA): Accepted', 'MIT: Basically Accepted', 'UC Berkeley EECS: Accepted (SEED Scholar Invitation)', 'UCLA CS: Accepted (Regents Invitation)', 'UCSD CS: Accepted (Regents Scholar)', 'UCSB CS: Accepted (Regents Scholar)', 'UCI CS: Accepted (Honors College)', 'Georgia Tech CS: Accepted', 'University of Maryland CS: Accepted (College Park Scholar)', 'CMU SCS: Waitlisted', 'UIUC CS: Waitlisted', 'Stanford: Rejected', 'Cornell CS: Rejected']
+    resultString = ""
+    for result in results: 
+        resultString += result + "\n"
+    await ctx.send(resultString)
 
 @bot.command()
 async def congratulate(ctx, num_times=None):
-    message = "Happy 18-th birthday <@449366472704393216>! Now there's no need to hide that you watch NSFW stuff."
+    message = "Happy 18-th birthday Kento! Now there's no need to hide that you watch NSFW stuff."
     if (num_times == None):
         num_times = 1
 
-    if int(num_times) > 10:
+    if int(num_times) > 1000:
         await ctx.send("We don't want to ping him too many times")
         return
 
     finalMessage = ""
     for i in range(int(num_times)):
         finalMessage += message + "\n"
-    await ctx.send(finalMessage)
+    await ctx.send(finalMessage[:2000])
 
 
 @bot.command()
@@ -69,5 +91,10 @@ async def github(ctx):
     await ctx.send("https://github.com/KentoNishi", embed=None)
 
 add_commands(bot, [describe, congratulate, age,
-             website, achievements, github, pic])
+             website, achievements, github, pic, admissions])
+
+add_commands(bot2, [congrats])
+
+keep_alive()
 bot.run(TOKEN)
+bot2.run(TOKEN)
