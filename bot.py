@@ -33,7 +33,7 @@ async def describe(ctx):
 
 @bot.command()
 async def achievements(ctx):
-    achievements = ['Harvard Accepted', 'Top 300 STS Scholar', 'ML Researcher',
+    achievements = ['Full Ride @ Harvard', 'Top 300 STS Scholar', 'ML Researcher',
                     'LiveTL Creator', 'USACO Gold', 'High Schooler', 'Gigachad']
     response = ""
     for i in range(len(achievements)):
